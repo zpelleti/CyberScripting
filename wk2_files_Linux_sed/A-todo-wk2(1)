@@ -1,0 +1,86 @@
+ls *[0-9]                                                           #'(in wk2_files) list from directory anything that starts with whatever and ends with number 0 to 9 (output2, phone2)'
+cat phones                                                          #'display the contents of file 'phones''
+cat names                                                           #'display the contents of the file 'names''
+paste -d":" phones names                                            #'paste together names and phones content, using ':' as delimiter'
+paste -s phones names                                               #'paste together names and phones content, display serially(same line)'
+ls | paste -d: -s                                                   #'list the wk2 directory , add delimiter ':', display serially
+
+find /etc -name "*.cfg"                                             #'find , in directory /etc , files with a name ending in .cfg' , preceded by anything'
+find /etc -name "*.cfg" > output                                    #'find , in directory /etc , files with a name ending in .cfg' , send results in file 'output''
+find /etc -name "*.cfg" > output 2> error                           #'find , in directory /etc , files with a name ending in .cfg' , send results in 'output', and send invalid results in 'error'
+find /etc -name "*.cfg" &> output2                                  #'find , in directory /etc , files with a name ending in .cfg' , send valid and invalid results in 'output2'
+tr e x < intro                                                      #'in file 'intro', transform all 'e' characters for 'x' characters
+
+cut -d: -f1,6 /etc/passwd                                           #'in /etc/passwd , delimit fields by ':' and display fields 1 and 6 only '
+cut -d: -f1,6 /etc/passwd | tr : ' '                                #'in /etc/passwd , delimit fields by ':' and display fields 1 and 6 only , THEN (pipe) transform ':' with ' ' (space)
+
+date                                                                #'in any environment, type 'date' to see the date'
+date | tr ' ' '\12'                                                 #'TBC'
+
+tr '[a-f]' '[A-F]' < intro                                          #'in file 'intro', transform EVERY INSTANCES of all the letters from a to f (lower) to A to F (caps) 
+echo "Something   fish" | tr -s ' '                                 #'display string "  " , THEN (-s)"squeeze repeats of " : replace each instance of ' ' by one only ' ' 
+echo "Something   fish" | tr -s ' ' '-'                             #'display string "  " , THEN (-s)"squeeze repeats of " : replace each instance of ' ' by one only '-' 
+tr -s ':' '|' < /etc/passwd                                         #'transform each instance of ':' in the file /etc/passwd by a '|'  
+tr -s ':' '-' < /etc/passwd                                         #'transform each instance of ':' in the file /etc/passwd by a '-' 
+
+cat manyspaces                                                      #'display contents of the file manyspaces'
+tr -s  ' ' ' ' < manyspaces                                         #'transform every instance of ' ' (spaces) by only one ' ' in file manyspaces
+
+tr -d ' ' < intro                                                   #'transform: delete all instances of ' ' in file manyspaces
+
+cat intro                                                           #'display contents of file 'intro''
+sed 's/Multics/MULTICS/' intro                                      #'sed 's/... replaces only the string /1/ for the string /2/ in intro 
+sed 's/Multics/MULTICS/' intro > temp                               #'replaces string 'Multics' for 'MULTICS' and sends output in a file called '
+sed 's/ .*$//' intro                                                #'this sed is going to read only the first character (.) of every line and delete the rest till the end of 'intro'
+(deletes all characters starting from the first space till the end)
+sed 's/ *...$//' intro                                              #'sed deleted last three characters of every line in 'intro'
+sed 's/:.*$//' /etc/passwd                                          #'sed reads first item, deletes everything after delimiter ':' 
+sed -n '1,2p' intro		                                            #'sed -n prints the content of the following bracket if true: 1,2 = first two lines of intro
+                                                                      IF -n is not there, 1,2 will be printed twice, and then every other line.
+                                                                      IF 1,2p is replaced by 1,2d , the lines 1,2 will be deleted.
+                                                                      IF we combine -n and 1,2d , there will be no output.
+sed -n '/Ken/p' intro                                               #'Will display only the lines including the word 'Ken' from intro
+sed '1d;3d' intro                                                   #'Deletes lines 1 and 3 in intro.
+sed '1,3d' intro                                                    #'Deletes lines 1 to 3 in intro'.
+sed 's/ //-/g' intro                                                #'Every time sed s reads / / (space) , g deletes it (nothing inserted). If we replace space with a word /Multics/ , Multics will be deleted.
+sed 's/Multics/$1,000,000 machine/' intro                           #'Single quotes preserves the $ symbol in the output'.
+sed "s/Multics/$1,000,000 machine/" intro                           #'Double quotes reads $1 as a variable. 
+
+sed "s/Thompson/Thompson's/ ; s/Ken/Jim/ ; s/Multics/\$1,000,000 machine/" intro  #'sed s changes the string /1/ for string /2/. Here three different strings are combined.
+
+sed "s/the/THE/" dukeofyork.txt                                     #'sed s replaces ONLY FIRST OCCURENCE of /the/ with /THE/ for every line of Duke'.
+sed "s/the/THE/g" dukeofyork.txt                                    #'sed s replaces EVERY OCCURENCE of the for every line of Duke'.
+echo "aaacaaa" | sed "s/aa/b-b/g"                                   #'echo displays: 'aaacaa' and sed s changes every instance of 'aa' to 'b-b' : 'b-bacb-ba'
+echo "aaacaaa" | sed "s/aa/b-b/2"                                   #'echo displays: 'aaacaa' and sed s changes only the second instance : 'aaacb-ba'
+echo "abcabccat" | sed "s/a/-/3"                                    #'echo displays: 'abcabccat' ans sed s changes the thrid instance of a to a - : 'abcabcc-t'
+cat dukeofyork.txt | sed "s;half;1/2;g"                             #'echo displays duke.. , and sed s changes every instance of 'half' with '1/2' - have to use ';' instead of '/'
+
+sed 's/^[[:digit:]][[:digit:]][[:digit:]]/(&)/' phones              #'sed s reads from beginning of lines (^) , takes the first three digits and puts them between brackets'(&).
+[
+(& represents the contents of the pattern matched) 
+([:digits:] = posit symbol for Digits)
+(could be called as : sed 's/^[[:digit:]]\{3\}/(&)/' phones)
+        ]
+
+echo "aabcabcdefaabcdaabb" | sed "s/aa/(&)/"                        #'echo displays "..." and then sed s puts FIRST INSTANCE of string /aa/ between brackets (&)' 
+echo "aabcabcdefaabcdaabb" | sed "s/aa/(&)/g"                       #'echo displays "..." and then sed s puts EVERY INSTANCE of string /aa/ between brackets (&)' 
+
+sed   "s/^[[:digit:]]\{4\}/(&)/g ; {s/)[[:digit:]]\{3\}/&-/g}"  phones2    #'sed s reads first four digits, places them in brackets ; then sed s takes the nex three digits and adds a '-' .' 
+(\{4\} means the preceding regular expression is matched four times)
+
+sed   "{s/^[[:digit:]]\{3\}/(&)/g} ; {s/)[[:digit:]]\{3\}/&-/g}"  phones2 | sed 's/\(.*)\)\(.*-\)\(.*$\)/Area code: \1 Second: \2 Third: \3/'      
+                                                                    #'sed s: reads first three digits, adds brackets ; then reads next three digits, adds '-' ; all in 'phone2'
+                                                                    #'THEN (PIPES) takes that result and adds at first position \(.*)\) followed by everything else: 'Area code:'
+                                                                    #'THEN \(.*-\) means the next position, everythng until '-' , add: 'Second:'
+                                                                    #'THEN \(.*$)\) means next position, and everything left to the end ($) , add: 'Third'
+
+notes: /a.c/ matches /abc/ (. means exactly 1 character)
+cat intro | sed "s/Ge./GEX/g"                                       #'cat intro displays contents of intro THEN seds replaces every instance of the string 'Ge.' 
+                                                                    #'(Ge followed by exactly ONE (.) character) with the new string 'GEX' 
+                                                                    
+cat dukeofyork.txt | sed "s/down/Fail/g"                            #'sed s replaces every instance of 'down' with the string 'Fail''.
+
+cat dukeofyork.txt | sed "s/down$/Fail/g"                           #'sed s replaces every instance of 'down' AT THE END of every line ($) with the string Fail'.
+(^ means start, $ means end)
+
+

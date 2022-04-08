@@ -1,0 +1,9 @@
+In the late 1960s, Bell Labs was involved in a project with MIT and General Electric to develop a time-sharing system, called Multiplexed Information and Computing Service (Multics), 
+allowing multiple users to access a mainframe simultaneously. Dissatisfied with the project's progress, 
+Bell Labs management ultimately withdrew.
+Ken Thompson, a programmer in the Labs' computing research department, had worked on Multics. 
+He decided to write his own operating system. While he still had access to the Multics environment, 
+he wrote simulations for the new file and paging system on it.
+
+from https://en.wikipedia.org/wiki/History_of_Unix
+

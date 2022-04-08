@@ -1,0 +1,20 @@
+find: ‘/etc/grub.d’: Permission denied
+/etc/cloud/cloud.cfg.d/10_aws_yumvars.cfg
+/etc/cloud/cloud.cfg.d/05_logging.cfg
+/etc/cloud/cloud.cfg
+find: ‘/etc/pki/CA/private’: Permission denied
+find: ‘/etc/pki/rsyslog’: Permission denied
+find: ‘/etc/dhcp’: Permission denied
+find: ‘/etc/sudoers.d’: Permission denied
+find: ‘/etc/selinux/targeted/active’: Permission denied
+find: ‘/etc/lvm/archive’: Permission denied
+find: ‘/etc/lvm/backup’: Permission denied
+find: ‘/etc/lvm/cache’: Permission denied
+find: ‘/etc/cni’: Permission denied
+/etc/python/cert-verification.cfg
+/etc/grub2.cfg
+/etc/hibagent-config.cfg
+/etc/hibinit-config.cfg
+find: ‘/etc/audisp’: Permission denied
+find: ‘/etc/audit’: Permission denied
+/etc/grub2-efi.cfg

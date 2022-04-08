@@ -1,0 +1,64 @@
+Week 4: intro awk
+
+awk '{print $2 $1}' names.txt                                                           #prints names with no spaces
+awk '{print $2, $1}' names.txt                                                          #prints names with spaces
+awk '{print NF ", " $0}' names.txt                                                      #prints names with numver of fields , (2 each)
+awk '{print $NF ", " $0}' names.txt                                                     #prints last field in row ($NF) , 
+awk 'NF >= 6 {print NF, $0}' dukeofyork.txt                                             #prints entries (rows) with over x amt of fields and the number of  
+ (awk -F- 'NF >= 3 {print NF, $0}' addressbook.txt)
+awk 'NF==6 {print "6 fields: " NF ", " $0} /down/ {print "Down:" $0}' dukeofyork.txt    #prints "6 fields" before the ones with 6 fields. 
+                                                                                        #prints "Down:" before the ones with the word 'down'
+awk '$1 ~ /M/ {print $0}' names.txt                                                     #prints name that has M for first field
+awk '$1 ~ /6/ {print $0}' multiaddress.txt                                              #...6...
+awk '$2 ~ /when/ {print $0}' dukeofyork.txt                                             #prints lines ...'when'...2nd field
+awk '$1 ~ /A/ && $2 ~ /wh/ {print $0}' dukeofyork.txt                                   #must satisfy both conditions
+awk '$1 ~ /J/ || $5 ~ /^2/ {print $0}' empinfo.txt                                      #may satisfy one or the other 
+awk '! ($1 ~ /A/ && $2 ~ /wh/) {print $0}' dukeofyork.txt                               #prints whatever doesn't satisfy...
+
+Field separators:
+
+awk -F: '{print $4}' emp.lst                                                            #separate by ':' print field 4 (department)
+awk -F: '$4 ~ /k/ {print $0}' emp.lst                                                   #print lines where field 4 contains a k (marketing)
+
+awk 'BEGIN {RS="!" ; FS=","} {print $3}' onebigline.txt                                 #RS = record separator, "when we see !, new line".
+                                                                                        #FS = field separator, "count fields at every "," ".
+BEGIN / END:
+
+awk 'BEGIN{RS=""; FS="\n"} {name=$1; addr=$2; print name ":" addr ":" $3}' multiaddress.txt  #RS = 'no space', FS = 'new line', 
+                                                                                             #"call the 1st field 'name' , and the 2nd 'addr',
+                                                                                             #everytime we see a new field, add ':' as separator
+                                                                                             
+awk 'BEGIN {print "BEST EMPLOYEES"} {print} END {print "THE END"}' names.txt                 #adds header + footer
+
+OFS / ORS: 
+
+awk 'BEGIN {print "BEST EMPLOYEES"; ORS = "-"; OFS = "!\n"} {print $1 , $2} END {print "THE END"}' names.txt
+
+            #The above creates a header and footer
+            #ORS adds '-' delimiter between the fields 1-2 in print function.
+            #OFS separates each records with '!' + new line.
+
+#Record Number (NR) and FileName (FILENAME)
+
+awk '{print NR, $0}' names.txt                      #"print the file, add record numbers (1,2,3...) to each record
+awk '{print NR, $0,  "," FILENAME}' names.txt       #Record number, all records, name of file
+awk '{print $NF}' names.txt                         #Prints only the second field 
+awk '{print $(NF-1)}' names.txt                     #Prints only the first field 
+awk '{print $NF-1}' names.txt                       #Prints -1 only for every record
+
+awk '{$2="Pat"; $3="MyLove"; $4="Billie"; $5="Jinn"; print $0}' names.txt   #to replace (add) fields content
+
+Writing Scripts:
+
+in script cmd.awk: 
+
+#!/usr/bin/awk -f
+BEGIN { print "***Emp Info***" }
+{ print }
+
+in terminal: 
+
+[chmod +x cmd,awk] - if needed
+
+./cmd.awk empinfo.txt (any file name) 
+
